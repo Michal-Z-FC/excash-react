@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Form from "./Form/Form";
+import Result from "./Result/Result";
 
 function App() {
+  const [data, setData] = useState({ amount: 0, currency: "", mid: 0 });
+
+  const handleData = (result) => {
+    setData(result);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div className="excashApp">
+      <header className="excashHeader">
+        <img src="./static/images/logo.svg" className="logotype" alt="Logotyp Excash" />
+        <h1 className="excashHeading">Przelicznik walut</h1>
       </header>
+      <main>
+        <Form data={handleData} />
+        <Result amount={data.amount} currency={data.currency} mid={data.mid} />
+      </main>
     </div>
   );
 }

@@ -1,13 +1,62 @@
-body {
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#root {
+  display: flex;
+  width: 100vw;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background-color: #060d0c;
+}
+
+html {
+  font-size: 12px;
+}
+
+body {
+  line-height: 1.4;
+  font-weight: normal;
+  font-family: "Kanit", sans-serif;
+  color: #e9f0ef;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img {
+  display: block;
+  user-select: none;
+  pointer-events: none;
+}
+
+button,
+input,
+select {
+  font-family: "Kanit", sans-serif;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+button,
+select {
+  cursor: pointer;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+@media screen and (min-width: 600px) {
+  html {
+    font-size: 14px;
+  }
 }

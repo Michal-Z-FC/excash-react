@@ -1,0 +1,132 @@
+.form {
+  position: relative;
+  display: grid;
+  width: 100%;
+  max-width: 350px;
+  margin: 3rem auto 0;
+  gap: 1rem;
+}
+
+.amountInput {
+  display: block;
+  width: 100%;
+  padding: 1.3rem 1.8rem;
+  border: 4px solid transparent;
+  border-radius: 2rem;
+  background-color: #e9f0ef;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #06100f;
+  transition: border-color 0.3s;
+}
+
+.amountInput::placeholder {
+  color: #78807f;
+}
+
+.amountInput:focus,
+.amountInput:active {
+  border-color: #1c9187;
+}
+
+.selectForm {
+  position: relative;
+  width: 100%;
+}
+
+.selectForm::after {
+  position: absolute;
+  content: "";
+  background: url("../../public/static/images/arrow.svg") no-repeat center/contain;
+  width: 0.8rem;
+  aspect-ratio: 1;
+  top: 50%;
+  right: 1.4rem;
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.currenciesList {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem 1.8rem;
+  border: 4px solid transparent;
+  border-radius: 2rem;
+  background-color: #e9f0ef;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #06100f;
+  appearance: none;
+  transition: border-color 0.3s;
+}
+
+.currenciesList:focus {
+  border-color: #1c9187;
+}
+
+.helpBlock {
+  position: absolute;
+  width: 100%;
+  bottom: -2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: #f44336;
+}
+
+.calculateBtn {
+  display: flex;
+  width: 100%;
+  margin-top: 1rem;
+  padding: 1.3rem 2.3rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  gap: 0.8rem;
+  background-color: #1c9187;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #e9f0ef;
+  transition: background-color 0.3s;
+}
+
+.calculateBtn:active,
+.calculateBtn:focus {
+  background-color: mix(#1c9187, #06100f, 70%);
+}
+
+.loader {
+  display: none;
+  border: 2px solid transparent;
+  border-top: 2px solid #19ebd9;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .form {
+    grid-template-columns: calc(70% - 0.5rem) calc(30% - 0.5rem);
+  }
+
+  .calculateBtn {
+    grid-column: 1 / 3;
+  }
+}
+
+@media (hover: hover) {
+  .calculateBtn:hover {
+    background-color: rgba(28, 145, 135, 0.7);
+  }
+}
