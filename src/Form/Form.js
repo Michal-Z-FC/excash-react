@@ -1,10 +1,63 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./Form.css";
 import axios from "axios";
 
-function Form({ data }) {
+function Form({ setResult }) {
   const [error, setError] = useState(null);
   const [loader, setLoader] = useState(false);
+
+  const getCurrency = (amount, currency, form) => {
+    const apiUrl = "https://api.nbp.pl/api/exchangerates/rates/A/";
+
+    axios
+      .get(`${apiUrl}${currency}/last/?format=json`)
+      .then((response) => {
+        const dataFromApi = response.data;
+
+        if (typeof dataFromApi !== "object" || !dataFromApi.rates || dataFromApi.rates.length === 0 || !dataFromApi.rates[0].mid) {
+          throw new Error("Nieodpowiednia struktura API.");
+        }
+
+        const mid = dataFromApi.rates[0].mid;
+        const result = { amount: parseFloat(parseFloat(amount).toFixed(2)), currency: currency, mid: mid };
+        setResult(result);
+        form.reset();
+      })
+      .catch((err) => {
+        setError("Problem z połączeniem z API. Spróbuj ponownie!");
+        console.error("Problem z połączeniem z API.", err);
+      })
+      .finally(() => {
+        setLoader(false);
+      });
+  };
+
+  const checkValidate = (amount) => {
+    const regex = /^\s*\d+(\s*\d+)*(\s*[.,]\s*\d+(\s*\d+)*)?$/;
+
+    if (amount.trim() === "") {
+      setError("Nie wypełniono pola z kwotą!");
+      return false;
+    }
+
+    if (!regex.test(amount)) {
+      setError("W kwocie pojawiły się niedozwolone znaki!");
+      return false;
+    }
+
+    if (amount.length > 15) {
+      setError("Użyto zbyt dużo znaków! (max 15 znaków)");
+      return false;
+    }
+
+    if (parseFloat(parseFloat(amount).toFixed(2)) < 0.01) {
+      setError("Kwota jest zbyt mała!");
+      return false;
+    }
+
+    setError(null);
+    return true;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -36,59 +89,6 @@ function Form({ data }) {
       </form>
     </section>
   );
-
-  function getCurrency(amount, currency, form) {
-    const apiUrl = "https://api.nbp.pl/api/exchangerates/rates/A/";
-
-    axios
-      .get(`${apiUrl}${currency}/last/?format=json`)
-      .then((response) => {
-        const dataFromApi = response.data;
-
-        if (typeof dataFromApi !== "object" || !dataFromApi.rates || dataFromApi.rates.length === 0 || !dataFromApi.rates[0].mid) {
-          throw new Error("Nieodpowiednia struktura API.");
-        }
-
-        const mid = dataFromApi.rates[0].mid;
-        const result = { amount: parseFloat(parseFloat(amount).toFixed(2)), currency: currency, mid: mid };
-        data(result);
-        form.reset();
-      })
-      .catch((err) => {
-        setError("Problem z połączeniem z API. Spróbuj ponownie!");
-        console.error("Problem z połączeniem z API.", err);
-      })
-      .finally(() => {
-        setLoader(false);
-      });
-  }
-
-  function checkValidate(amount) {
-    const regex = /^\s*\d+(\s*\d+)*(\s*[.,]\s*\d+(\s*\d+)*)?$/;
-
-    if (amount.trim() === "") {
-      setError("Nie wypełniono pola z kwotą!");
-      return false;
-    }
-
-    if (!regex.test(amount)) {
-      setError("W kwocie pojawiły się niedozwolone znaki!");
-      return false;
-    }
-
-    if (amount.length > 15) {
-      setError("Użyto zbyt dużo znaków! (max 15 znaków)");
-      return false;
-    }
-
-    if (parseFloat(parseFloat(amount).toFixed(2)) < 0.01) {
-      setError("Kwota jest zbyt mała!");
-      return false;
-    }
-
-    setError(null);
-    return true;
-  }
 }
 
 export default Form;

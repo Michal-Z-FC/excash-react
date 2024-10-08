@@ -1,23 +1,22 @@
 import "./Result.css";
 
-function Result({ amount = 0, mid = 0, currency = "" }) {
+function Result({ result }) {
+  const calculateAndDisplayResult = (amount, mid) => {
+    const computedAmount = parseFloat(amount);
+    const value = (computedAmount * mid).toFixed(2);
+    return value;
+  };
+
+  const { amount, currency, mid } = result;
+  const displayResult = amount && mid && currency ? calculateAndDisplayResult(amount, mid) : "";
+
   return (
     <section className="resultContainer">
-      <h2 className="result">{amount && mid && currency ? calculateAndDisplayResult(amount, mid, currency) : ""}</h2>
+      <h2 className="result">
+        {displayResult !== "" ? `${amount} ${currency} to ` : ""}
+        <span className="highlighted">{displayResult !== "" ? `${displayResult} PLN` : ""}</span>
+      </h2>
     </section>
-  );
-}
-
-function calculateAndDisplayResult(amount, mid, currency) {
-  amount = parseFloat(amount);
-  amount = Math.ceil(amount * 100) / 100;
-  mid = Math.ceil(mid * 100) / 100;
-
-  const value = amount * mid;
-  return (
-    <>
-      {amount} {currency} to <span className="highlighted">{Math.round(value * 100) / 100}&nbsp;PLN</span>
-    </>
   );
 }
 
